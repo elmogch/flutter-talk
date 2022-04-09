@@ -17,8 +17,6 @@ class Pokemon {
       this.abilities = const []});
 
   factory Pokemon.fromJson(Map<String, dynamic> json) {
-    print('json');
-    print(json);
     Pokemon pokemon = Pokemon(
       id: json['id'],
       name: json['name'] != null
@@ -32,8 +30,6 @@ class Pokemon {
     if (json['abilities'] != null && json['abilities'] != '') {
       pokemon.abilities = [];
       json['abilities'].forEach((ability) {
-        print('ability');
-        print(ability['ability']['name']);
         pokemon.abilities!.add(ability['ability']['name']);
       });
     }

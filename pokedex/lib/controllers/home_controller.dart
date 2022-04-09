@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pokedex/widgets/desktop/home_page.dart';
+import 'package:pokedex/widgets/web/home_page.dart';
 
 import '../models/pokemon.dart';
-import '../widgets/list/list_mobile.dart';
-import '../widgets/list/list_tablet.dart';
-import '../widgets/list/list_desktop.dart';
+import '../widgets/ios/home_page.dart';
+import '../widgets/android/home_page.dart';
 
 Future<List<Pokemon>> fetchPokemonList() async {
   final pokemonListResponse =
@@ -52,34 +55,18 @@ class _HomeControllerState extends State<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pokedex'),
-      ),
-      body: Center(
-        child: FutureBuilder<List<Pokemon>>(
-          future: futurePokemons,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return LayoutBuilder(
-                builder: ((context, constraints) {
-                  if (constraints.maxWidth < 600) {
-                    return ListMobile(snapshot.data!);
-                  } else if (constraints.maxWidth < 1200) {
-                    return ListTablet(snapshot.data!);
-                  } else {
-                    return ListDesktop(snapshot.data!);
-                  }
-                }),
-              );
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
+    if (kIsWeb) {
+      return HomeWeb(futurePokemons: futurePokemons);
+    }
+    if (defaultTargetPlatform == TargetPlatform.linux ||
+        defaultTargetPlatform == TargetPlatform.macOS ||
+        defaultTargetPlatform == TargetPlatform.windows) {
+      return HomeDesktop(futurePokemons: futurePokemons);
+    }
 
-            return const CircularProgressIndicator();
-          },
-        ),
-      ),
-    );
+    if (defaultTargetPlatform != TargetPlatform.iOS) {
+      return HomeIOS(futurePokemons: futurePokemons);
+    }
+    return HomeAndroid(futurePokemons: futurePokemons);
   }
 }
