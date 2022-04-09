@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/pokemon.dart';
-import '../widgets/pokemon_card.dart';
+import '../widgets/list/list_mobile.dart';
+import '../widgets/list/list_tablet.dart';
+import '../widgets/list/list_desktop.dart';
 
 Future<List<Pokemon>> fetchPokemonList() async {
   final pokemonListResponse =
@@ -62,38 +64,11 @@ class _HomeControllerState extends State<HomeController> {
               return LayoutBuilder(
                 builder: ((context, constraints) {
                   if (constraints.maxWidth < 600) {
-                    return GridView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, i) =>
-                          PokemonCard(snapshot.data![i]),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1,
-                      ),
-                    );
+                    return ListMobile(snapshot.data!);
                   } else if (constraints.maxWidth < 1200) {
-                    return GridView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, i) =>
-                          PokemonCard(snapshot.data![i]),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 6,
-                        childAspectRatio: 0.7,
-                      ),
-                    );
+                    return ListTablet(snapshot.data!);
                   } else {
-                    return GridView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, i) =>
-                          PokemonCard(snapshot.data![i]),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 8,
-                        childAspectRatio: 0.8,
-                      ),
-                    );
+                    return ListDesktop(snapshot.data!);
                   }
                 }),
               );

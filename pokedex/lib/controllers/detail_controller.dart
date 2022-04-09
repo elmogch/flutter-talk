@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_html/flutter_html.dart';
-// import 'package:provider/provider.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-// import '../../providers/venues_provider.dart';
-// import '../../widgets/venues/venue/logo.dart';
-// import '../../widgets/events/blocks.dart';
-// import '../../widgets/shared/detail_social_networks.dart';
-// import '../../constants/ux.dart';
+import '../widgets/detail/detail_mobile.dart';
+import '../widgets/detail/detail_desktop.dart';
 
 class DetailController extends StatefulWidget {
   static const routeName = '/detail';
@@ -50,112 +44,9 @@ class _DetailControllerState extends State<DetailController> {
         child: LayoutBuilder(
           builder: ((context, constraints) {
             if (constraints.maxWidth < 600) {
-              return ListView(children: [
-                Container(
-                  padding: EdgeInsets.only(left: 100, right: 100),
-                  child: Image.network(
-                    arguments['pokemon'].image,
-                    width: double.infinity,
-                    fit: BoxFit.fitWidth,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Text(
-                    'Id: ${arguments['pokemon'].id}',
-                    style: TextStyle(fontSize: 18.0),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Text(
-                    'Altura: ${arguments['pokemon'].height}',
-                    style: TextStyle(fontSize: 18.0),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Text(
-                    'Peso: ${arguments['pokemon'].weight}',
-                    style: TextStyle(fontSize: 18.0),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Text(
-                    'Abilidades',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Column(children: abilitiesRows()),
-                )
-              ]);
+              return DetailMobile(arguments: arguments);
             } else {
-              return Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      child: Column(children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 100, right: 100),
-                          child: Image.network(
-                            arguments['pokemon'].image,
-                            width: 200,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            'Id: ${arguments['pokemon'].id}',
-                            style: TextStyle(fontSize: 18.0),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            'Altura: ${arguments['pokemon'].height}',
-                            style: TextStyle(fontSize: 18.0),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            'Peso: ${arguments['pokemon'].weight}',
-                            style: TextStyle(fontSize: 18.0),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ]),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: Column(children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            'Abilidades',
-                            style: Theme.of(context).textTheme.headlineMedium,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Column(children: abilitiesRows()),
-                        )
-                      ]),
-                    ),
-                  ),
-                ],
-              );
+              return DetailDesktop(arguments: arguments);
             }
           }),
         ),
